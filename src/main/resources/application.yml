@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cloud-event-api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: auth-service
+              uri: ${AUTH_SERVICE_URL:http://localhost:8001}
+              predicates:
+                - Path=/api/auth/**
+              filters:
+                - StripPrefix=1
+
+            - id: event-service
+              uri: ${EVENT_SERVICE_URL:https://event-service.ambitiousmeadow-e7af242d.southeastasia.azurecontainerapps.io}
+              predicates:
+                - Path=/api/events/**
+              filters:
+                - StripPrefix=1
+
+            - id: registration-service
+              uri: ${REGISTRATION_SERVICE_URL:http://localhost:8003}
+              predicates:
+                - Path=/api/register/**
+              filters:
+                - StripPrefix=1
+
+            - id: notification-service
+              uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8004}
+              predicates:
+                - Path=/api/notify/**
+              filters:
+                - StripPrefix=1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
