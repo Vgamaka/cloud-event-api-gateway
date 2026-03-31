@@ -8,12 +8,48 @@ spring:
   cloud:
     gateway:
       # -----------------------------
+      # 🔁 ROUTES
+      # -----------------------------
+      routes:
+        # 🔐 AUTH SERVICE
+        - id: auth-service
+          uri: https://auth-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=2
+
+        # 📅 EVENT SERVICE
+        - id: event-service
+          uri: https://event-service.ambitiousmeadow-e7af242d.southeastasia.azurecontainerapps.io
+          predicates:
+            - Path=/api/events/**
+          filters:
+            - StripPrefix=2
+
+        # 📝 REGISTRATION SERVICE (LOCAL)
+        - id: registration-service
+          uri: http://localhost:8003
+          predicates:
+            - Path=/api/register/**
+          filters:
+            - StripPrefix=2
+
+        # 🔔 NOTIFICATION SERVICE (LOCAL)
+        - id: notification-service
+          uri: http://localhost:8004
+          predicates:
+            - Path=/api/notify/**
+          filters:
+            - StripPrefix=2
+
+      # -----------------------------
       # 🌐 GLOBAL CORS CONFIGURATION
       # -----------------------------
       globalcors:
         add-to-simple-url-handler-mapping: true
         corsConfigurations:
-          "/**":
+          "[/**]":
             allowedOrigins:
               - "https://cloudeventsystem.netlify.app"
               - "http://localhost:5173"
@@ -26,44 +62,6 @@ spring:
             allowedHeaders:
               - "*"
             allowCredentials: true
-
-      # -----------------------------
-      # 🔁 ROUTES
-      # -----------------------------
-      server:
-        webflux:
-          routes:
-            # 🔐 AUTH SERVICE
-            - id: auth-service
-              uri: https://auth-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io
-              predicates:
-                - Path=/api/auth/**
-              filters:
-                - StripPrefix=2
-
-            # 📅 EVENT SERVICE
-            - id: event-service
-              uri: https://event-service.ambitiousmeadow-e7af242d.southeastasia.azurecontainerapps.io
-              predicates:
-                - Path=/api/events/**
-              filters:
-                - StripPrefix=2
-
-            # 📝 REGISTRATION SERVICE
-            - id: registration-service
-              uri: http://localhost:8003
-              predicates:
-                - Path=/api/register/**
-              filters:
-                - StripPrefix=2
-
-            # 🔔 NOTIFICATION SERVICE
-            - id: notification-service
-              uri: http://localhost:8004
-              predicates:
-                - Path=/api/notify/**
-              filters:
-                - StripPrefix=2
 
       # -----------------------------
       # 🛠 FIX DUPLICATE HEADERS ISSUE
