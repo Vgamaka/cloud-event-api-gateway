@@ -43,6 +43,13 @@ spring:
           filters:
             - StripPrefix=2
 
+        - id: test-route
+          uri: https://httpbin.org
+          predicates:
+            - Path=/test/**
+          filters:
+            - StripPrefix=1
+
       # -----------------------------
       # 🌐 GLOBAL CORS CONFIGURATION
       # -----------------------------
