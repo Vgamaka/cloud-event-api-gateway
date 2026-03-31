@@ -29,7 +29,7 @@ spring:
 
         # 📝 REGISTRATION SERVICE (LOCAL)
         - id: registration-service
-          uri: http://localhost:8003
+          uri: https://registration-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io
           predicates:
             - Path=/api/register/**
           filters:
@@ -37,7 +37,7 @@ spring:
 
         # 🔔 NOTIFICATION SERVICE (LOCAL)
         - id: notification-service
-          uri: http://localhost:8004
+          uri: https://notification-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io
           predicates:
             - Path=/api/notify/**
           filters:
