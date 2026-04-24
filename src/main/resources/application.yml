@@ -23,9 +23,9 @@ spring:
         - id: event-service
           uri: https://event-service.ambitiousmeadow-e7af242d.southeastasia.azurecontainerapps.io
           predicates:
-            - Path=/api/events, /api/events/**
+            - Path=/api/events/**
           filters:
-            - StripPrefix=1
+            - StripPrefix=2
 
         # 📝 REGISTRATION SERVICE (LOCAL)
         - id: registration-service
