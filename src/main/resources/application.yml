@@ -25,7 +25,7 @@ spring:
           predicates:
             - Path=/api/events/**
           filters:
-            - StripPrefix=2
+            - StripPrefix=1
 
         # REGISTRATION SERVICE
         - id: registration-service
