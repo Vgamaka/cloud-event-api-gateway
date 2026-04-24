@@ -8,41 +8,42 @@ spring:
   cloud:
     gateway:
       # -----------------------------
-      # 🔁 ROUTES
+      # ROUTES
       # -----------------------------
       routes:
-        # 🔐 AUTH SERVICE
+        # AUTH SERVICE
         - id: auth-service
-          uri: https://auth-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io
+          uri: ${AUTH_SERVICE_URL:https://auth-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io}
           predicates:
             - Path=/api/auth/**
           filters:
             - StripPrefix=2
 
-        # 📅 EVENT SERVICE
+        # EVENT SERVICE
         - id: event-service
-          uri: https://event-service.ambitiousmeadow-e7af242d.southeastasia.azurecontainerapps.io
+          uri: ${EVENT_SERVICE_URL:https://event-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io}
           predicates:
             - Path=/api/events/**
           filters:
             - StripPrefix=2
 
-        # 📝 REGISTRATION SERVICE (LOCAL)
+        # REGISTRATION SERVICE
         - id: registration-service
-          uri: https://registration-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io
+          uri: ${REGISTRATION_SERVICE_URL:https://registration-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io}
           predicates:
             - Path=/api/register/**
           filters:
             - StripPrefix=2
 
-        # 🔔 NOTIFICATION SERVICE (LOCAL)
+        # NOTIFICATION SERVICE
         - id: notification-service
-          uri: https://notification-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io
+          uri: ${NOTIFICATION_SERVICE_URL:https://notification-service.greenbay-a2b6478d.centralindia.azurecontainerapps.io}
           predicates:
             - Path=/api/notify/**
           filters:
             - RewritePath=/api/notify/(?<segment>.*), /${segment}
 
+        # TEST ROUTE
         - id: test-route
           uri: https://httpbin.org
           predicates:
@@ -51,7 +52,7 @@ spring:
             - StripPrefix=1
 
       # -----------------------------
-      # 🌐 GLOBAL CORS CONFIGURATION
+      # GLOBAL CORS CONFIGURATION
       # -----------------------------
       globalcors:
         add-to-simple-url-handler-mapping: true
@@ -71,14 +72,11 @@ spring:
             allowCredentials: true
 
       # -----------------------------
-      # 🛠 FIX DUPLICATE HEADERS ISSUE
+      # FIX DUPLICATE HEADERS ISSUE
       # -----------------------------
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
 
-# -----------------------------
-# 🔍 ACTUATOR (OPTIONAL)
-# -----------------------------
 management:
   endpoints:
     web:
