@@ -41,7 +41,7 @@ spring:
           predicates:
             - Path=/api/notify/**
           filters:
-            - StripPrefix=2
+            - RewritePath=/api/notify/(?<segment>.*), /${segment}
 
         - id: test-route
           uri: https://httpbin.org
