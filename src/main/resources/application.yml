@@ -51,6 +51,16 @@ spring:
           filters:
             - StripPrefix=1
 
+        # -----------------------------
+        # 🔥 CORS PREFLIGHT FIX (IMPORTANT)
+        # -----------------------------
+        - id: cors-preflight
+          uri: http://localhost
+          predicates:
+            - Method=OPTIONS
+          filters:
+            - SetStatus=200
+
       # -----------------------------
       # GLOBAL CORS CONFIGURATION
       # -----------------------------
